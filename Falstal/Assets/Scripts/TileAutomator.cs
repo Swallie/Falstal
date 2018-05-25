@@ -67,7 +67,7 @@ public class TileAutomator : MonoBehaviour {
         {
             for (int y = 0; y < height; y++)
             {
-                if (terrainMap[x, y] == 1)
+                if (terrainMap[x, y] == 0)
                     botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
                 else
                     wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), wallTile);
@@ -152,9 +152,9 @@ public class TileAutomator : MonoBehaviour {
     // Initialisierung einer zufälligen Karte
     public void initPos()
     {
-        for (int x = 0; x < height; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y < height; y++)
             {
                 terrainMap[x, y] = Random.Range(1, 101) < iniChance ? 1 : 0;
             }
@@ -177,9 +177,15 @@ public class TileAutomator : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Generating");
             doSim(numR);
+        }
 
         if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("Clearing");
             clearMap(true);
+        }
     }
 }
