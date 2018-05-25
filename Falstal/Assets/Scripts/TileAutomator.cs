@@ -36,6 +36,8 @@ public class TileAutomator : MonoBehaviour {
     // Nicht passierbare
     public Tilemap wallMap;
     public Tile blockingTile;
+    public Tile voidTile;
+    public Tile borderTop0;
     public Tile borderTop1;
     public Tile borderTop2;
     public Tile borderTop3;
@@ -58,9 +60,6 @@ public class TileAutomator : MonoBehaviour {
     // Durchlauf
     public void doGenerateFloor(int numR)
     {
-        // Karte leeren
-        clearMap(false);
-
         // wir setzen höhe und breite
         width = tmapSize.x;
         height = tmapSize.y;
@@ -74,22 +73,32 @@ public class TileAutomator : MonoBehaviour {
             initPos();
         }
 
+        doGenerateOuterWalls();
+
         // Dann machen wir so viele durchläufe wie gewünscht...
         for (int i = 0; i < numR; i++)
         {
             terrainMap = gentilePos(terrainMap);
         }
 
-        for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
             {
                 if (terrainMap[x, y] == 0)
                     botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
                 else
-                    wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), blockingTile);
+                if (wallMap.GetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0)) == null)
+                {
+                    if (y > 0 && terrainMap[x, y-1] == 0)
+                    {
+                        wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), borderTop0);
+                    } else
+                    {
+                        wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), blockingTile);
+                    }
+                }
             }
-
         }
     }
 
@@ -117,6 +126,7 @@ public class TileAutomator : MonoBehaviour {
         for (int x = 0; x < width; x++)
         {
             // Oberkante
+            wallMap.SetTile(new Vector3Int(-x + width / 2, 0 + height / 2, 0), borderTop0);
             wallMap.SetTile(new Vector3Int(-x + width / 2, 1 + height / 2, 0), borderTop1);
             wallMap.SetTile(new Vector3Int(-x + width / 2, 2 + height / 2, 0), borderTop2);
             wallMap.SetTile(new Vector3Int(-x + width / 2, 3 + height / 2, 0), borderTop3);
@@ -276,9 +286,6 @@ public class TileAutomator : MonoBehaviour {
 
         // Dann generieren wir den Boden
         doGenerateFloor(numR);
-
-        // Wir versuchen die Wände schön zu machen
-        doGenerateOuterWalls();
 
         // Deko muss hinein
         doDecorate();

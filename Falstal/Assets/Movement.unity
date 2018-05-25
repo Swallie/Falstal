@@ -2441,11 +2441,13 @@ MonoBehaviour:
   birthLimit: 3
   deathLimit: 2
   numR: 5
-  tmapSize: {x: 100, y: 100, z: 0}
+  tmapSize: {x: 100, y: 20, z: 0}
   botMap: {fileID: 441133418}
   botTile: {fileID: 11400000, guid: 99f3a434f392a454c96f337cb6184c13, type: 2}
   wallMap: {fileID: 1315176683}
   blockingTile: {fileID: 11400000, guid: 83416a712749b7a48a843f7c7451e1bb, type: 2}
+  voidTile: {fileID: 11400000, guid: 83416a712749b7a48a843f7c7451e1bb, type: 2}
+  borderTop0: {fileID: 11400000, guid: 922024bf3a39dee40a4badb6f8cee11e, type: 2}
   borderTop1: {fileID: 11400000, guid: 60696b0585f583149b6347227edbec53, type: 2}
   borderTop2: {fileID: 11400000, guid: 4f606ae0fcba0864393f3ac32c2b307d, type: 2}
   borderTop3: {fileID: 11400000, guid: aec84d2fb5b9be9489119606427362b7, type: 2}
@@ -2505,7 +2507,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1729792014}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1049347160}
