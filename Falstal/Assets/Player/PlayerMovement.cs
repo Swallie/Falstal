@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
 
     Animator anim;
 
+    [Range(1, 10)]
+    public float Speed;
+
     // Use this for initialization
     void Start()
     {
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat("x", input_x);
             anim.SetFloat("y", input_y);
 
-            transform.position += new Vector3(input_x, input_y, 0).normalized * Time.deltaTime;
+            transform.position += new Vector3(input_x, input_y, 0).normalized * Time.deltaTime * Speed;
         }
 
     }
