@@ -20,26 +20,35 @@ public class TileAutomator : MonoBehaviour {
     [Range(0, 8)]
     public int numR;
 
-    private int count = 0;
-
+    // Interne Repräsentation der Map 
     public int[,] terrainMap;
 
     public Vector3Int tmapSize;
 
-    // Bodenfliesen
+    // Passierbare
     public Tilemap botMap;
     public Tile botTile;
 
-    // Wände
+    // Nicht passierbare
     public Tilemap wallMap;
-    public Tile wallTile;
+    public Tile blockingTile;
+    public Tile borderTop1;
+    public Tile borderTop2;
+    public Tile borderTop3;
+    public Tile borderTopLeft;
+    public Tile borderLeft;
+    public Tile borderBottomLeft;
+    public Tile borderBottom;
+    public Tile borderBottomRight;
+    public Tile borderRight;
+    public Tile borderTopRight;
 
     // Wie hoch/breit wird die Map?
     int width;
     int height;
 
     // Durchlauf
-    public void doSim(int numR)
+    public void doGenerateFloor(int numR)
     {
         // Karte leeren
         clearMap(false);
@@ -70,10 +79,70 @@ public class TileAutomator : MonoBehaviour {
                 if (terrainMap[x, y] == 0)
                     botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
                 else
-                    wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), wallTile);
+                    wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), blockingTile);
             }
 
         }
+    }
+
+    public void doGenerateOuterWalls()
+    {
+        int borderThickness = 20;
+
+        for (int x = - borderThickness; x <= width + borderThickness; x++)
+        {
+            for (int y = -borderThickness; y <= height + borderThickness; y++)
+            {
+                if (x >= 0 && y >= 0 && x < width && y < height)
+                {
+                    continue;
+                }
+
+                wallMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), blockingTile);
+            }
+
+        }
+
+
+
+        // Oberkante und Unterkante
+        for (int x = 0; x < width; x++)
+        {
+            // Oberkante
+            wallMap.SetTile(new Vector3Int(-x + width / 2, 1 + height / 2, 0), borderTop1);
+            wallMap.SetTile(new Vector3Int(-x + width / 2, 2 + height / 2, 0), borderTop2);
+            wallMap.SetTile(new Vector3Int(-x + width / 2, 3 + height / 2, 0), borderTop3);
+
+            // Unterkante
+            wallMap.SetTile(new Vector3Int(-x + width / 2, -(height / 2), 0), borderBottom);
+        }
+
+        // Linke und Rechte Kante
+        for (int y = 0; y < height; y++)
+        {
+            // Linke Kante
+            wallMap.SetTile(new Vector3Int(-width / 2, -y + height / 2, 0), borderLeft);
+
+            // Rechte Kante
+            wallMap.SetTile(new Vector3Int(1 + width / 2, -y + height / 2, 0), borderRight);
+        }
+
+        // Die Ecken noch
+        // Oben Rechts
+        wallMap.SetTile(new Vector3Int(1 + width / 2, 3 + height / 2, 0), borderTopRight);
+        wallMap.SetTile(new Vector3Int(1 + width / 2, 2 + height / 2, 0), borderRight);
+        wallMap.SetTile(new Vector3Int(1 + width / 2, 1 + height / 2, 0), borderRight);
+
+        // Unten Rechts
+        wallMap.SetTile(new Vector3Int(1 + width / 2, - height / 2, 0), borderBottomRight);
+
+        // Oben Links
+        wallMap.SetTile(new Vector3Int(-width / 2, 3 + height / 2, 0), borderTopLeft);
+        wallMap.SetTile(new Vector3Int(-width / 2, 2 + height / 2, 0), borderLeft);
+        wallMap.SetTile(new Vector3Int(-width / 2, 1 + height / 2, 0), borderLeft);
+
+        // Unten Links
+        wallMap.SetTile(new Vector3Int(- width / 2, -height / 2, 0), borderBottomLeft);
     }
 
     // Wir errechnen einen durchlauf (Conway's Game of life)
@@ -174,18 +243,20 @@ public class TileAutomator : MonoBehaviour {
     }
 
 
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Generating");
-            doSim(numR);
-        }
+    void Start()
+    {
+        // Wir leeren die Karte
+        clearMap(true);
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("Clearing");
-            clearMap(true);
-        }
+        // Dann generieren wir den Boden
+        doGenerateFloor(numR);
+
+        // Wir versuchen die Wände schön zu machen
+        doGenerateOuterWalls();        
+
+        // Deko muss hinein
+
+        // Gegner
+        
     }
 }
