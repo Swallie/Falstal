@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     Animator anim;
 
     [Range(1, 10)]
     public float Speed;
+
+
+    [Range(5, 10)]
+    public int Health;
 
     // Use this for initialization
     void Start()
