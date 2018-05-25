@@ -10,6 +10,10 @@ public class TileAutomator : MonoBehaviour {
     [Range(0, 100)]
     public int iniChance;
 
+    // Chance, das der Boden mit Deko versehen ist
+    [Range(1, 30)]
+    public int decoChance;
+
     [Range(0, 8)]
     public int birthLimit;
 
@@ -42,6 +46,10 @@ public class TileAutomator : MonoBehaviour {
     public Tile borderBottomRight;
     public Tile borderRight;
     public Tile borderTopRight;
+
+    // Dekoration
+    public Tilemap decoMap;
+    public Tile[] decoTiles;
 
     // Wie hoch/breit wird die Map?
     int width;
@@ -145,6 +153,23 @@ public class TileAutomator : MonoBehaviour {
         wallMap.SetTile(new Vector3Int(- width / 2, -height / 2, 0), borderBottomLeft);
     }
 
+    // Wir verstreuen ein wenig Müll im Dungeon, damit es verlebter aussieht
+    public void doDecorate()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (terrainMap[x, y] == 0 && Random.Range(1, 101) < decoChance)
+                {
+                    decoMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), decoTiles[Random.Range(0, decoTiles.Length)]);
+                }
+            }
+
+        }
+    }
+
+
     // Wir errechnen einen durchlauf (Conway's Game of life)
     public int [,] gentilePos(int[,] oldMap)
     {
@@ -235,6 +260,7 @@ public class TileAutomator : MonoBehaviour {
     {
         wallMap.ClearAllTiles();
         botMap.ClearAllTiles();
+        decoMap.ClearAllTiles();
 
         if (complete)
         {
@@ -252,11 +278,11 @@ public class TileAutomator : MonoBehaviour {
         doGenerateFloor(numR);
 
         // Wir versuchen die Wände schön zu machen
-        doGenerateOuterWalls();        
+        doGenerateOuterWalls();
 
         // Deko muss hinein
-
+        doDecorate();
         // Gegner
-        
+
     }
 }

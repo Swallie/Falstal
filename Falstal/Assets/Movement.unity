@@ -2437,6 +2437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iniChance: 25
+  decoChance: 3
   birthLimit: 3
   deathLimit: 2
   numR: 5
@@ -2455,6 +2456,18 @@ MonoBehaviour:
   borderBottomRight: {fileID: 11400000, guid: 5454f7be65eba8d4191d90bb569a634d, type: 2}
   borderRight: {fileID: 11400000, guid: 2faeb6eb231b8f44c8ece98b522b488d, type: 2}
   borderTopRight: {fileID: 11400000, guid: 381f383473c810a41ac4f27f1314f854, type: 2}
+  decoMap: {fileID: 1729792017}
+  decoTiles:
+  - {fileID: 11400000, guid: 8ef797a10c0f95b409b6f8aba455c4fa, type: 2}
+  - {fileID: 11400000, guid: 3fdfcc5692863324a862a1fc59142d32, type: 2}
+  - {fileID: 11400000, guid: ddf67e5da2457554bb7024fe152e4838, type: 2}
+  - {fileID: 11400000, guid: b0c6d6e6c9423ef41a130994ac5e37cc, type: 2}
+  - {fileID: 11400000, guid: 2f6354b7d4fee1048a8198df241eb325, type: 2}
+  - {fileID: 11400000, guid: 3a4e83eba171f2043b832180482984a0, type: 2}
+  - {fileID: 11400000, guid: 6c62c2a432f217d4085a93a51c6fc9db, type: 2}
+  - {fileID: 11400000, guid: b9702bd0498025046bb729b4c3c7e83b, type: 2}
+  - {fileID: 11400000, guid: 24947e9aa345a664187a07cd47b01a3c, type: 2}
+  - {fileID: 11400000, guid: 702de3b53f82416419f7504aa224e028, type: 2}
 --- !u!4 &1679657158
 Transform:
   m_ObjectHideFlags: 0
@@ -2492,7 +2505,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1729792014}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1049347160}
